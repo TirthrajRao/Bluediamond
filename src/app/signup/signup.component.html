@@ -1,0 +1,67 @@
+<div class="container">
+    <form class="form-horizontal" [formGroup]="registerForm">
+        <h2>Registeration</h2>
+        <div class="form-group">
+            <div class="row">
+                <label for="firstName" class="col-sm-3 control-label">FirstName</label>
+                <div class="col-sm-9">
+                    <input type="text" id="firstName" formControlName="firstName" placeholder="firstName" class="form-control" autofocus [ngClass]="{ 'is-invalid': submitted && rgisterFormValidation.firstName.errors }" (input)="validateFirstName(registerForm.value)">
+                    <span id="message1" style="color: red; font-size: 14px;"></span>
+                    <div *ngIf="submitted && rgisterFormValidation.firstName.errors" class="invalid-feedback">
+                        <div *ngIf="rgisterFormValidation.firstName.errors.required">firstName is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <label for="lastName" class="col-sm-3 control-label">LastName</label>
+                <div class="col-sm-9">
+                    <input type="text" id="lastName" formControlName="lastName" placeholder="lastName" class="form-control" autofocus [ngClass]="{ 'is-invalid': submitted && rgisterFormValidation.lastName.errors }" (input)="validateLastName(registerForm.value)">
+                    <span id="message2" style="color: red; font-size: 14px;"></span>
+                    <div *ngIf="submitted && rgisterFormValidation.lastName.errors" class="invalid-feedback">
+                        <div *ngIf="rgisterFormValidation.lastName.errors.required">lastName is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <label for="userName" class="col-sm-3 control-label">UserName</label>
+                <div class="col-sm-9">
+                    <input type="text" id="userName" formControlName="userName" placeholder="userName" class="form-control" autofocus [ngClass]="{ 'is-invalid':  rgisterFormValidation.userName.touched  && rgisterFormValidation.userName.errors }">
+                    <div *ngIf="rgisterFormValidation.userName.touched  && rgisterFormValidation.userName.errors" class="invalid-feedback">
+                        <div *ngIf="rgisterFormValidation.userName.errors.required">Username is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <label for="email" class="col-sm-3 control-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="email" id="email" formControlName="email" placeholder="email" class="form-control" autofocus (input)="validateEmail(registerForm.value)" [ngClass]="{ 'is-invalid': submitted && rgisterFormValidation.email.errors }">
+                    <span id="message" style="color: red; font-size: 14px;"></span>
+                    <div *ngIf="submitted && rgisterFormValidation.email.errors" class="invalid-feedback">
+                        <div *ngIf="rgisterFormValidation.email.errors.required">email is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <label for="password" class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-9">
+                    <input type="password" id="password" formControlName="password" placeholder="password" class="form-control" autofocus [ngClass]="{ 'is-invalid': rgisterFormValidation.password.touched && rgisterFormValidation.password.errors }">
+                    <div *ngIf="rgisterFormValidation.password.touched && rgisterFormValidation.password.errors" class="invalid-feedback">
+                        <div *ngIf="rgisterFormValidation.password.errors.required">password is required</div>
+                        <div *ngIf="rgisterFormValidation.password.errors.minlength">Password must contain atleast 6 characters</div>
+                        <div *ngIf="rgisterFormValidation.password.errors.maxlength">Password must be only 20 characters</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" (click)="registerUser(registerForm)" [disabled]="isDisable || registerForm.invalid">Register</button>
+    </form>
+</div>

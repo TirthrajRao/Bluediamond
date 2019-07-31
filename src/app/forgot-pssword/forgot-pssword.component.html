@@ -1,0 +1,25 @@
+
+<div class="container">
+	<form class="form-horizontal" [formGroup]="resetpswForm">
+		<h2>Reset Password</h2>
+        <div class="form-group">
+			<div class="row">
+				<label for="email" class="col-sm-3 control-label">Email</label>
+				<div class="col-sm-9">
+					<input type="text" id="email" formControlName="email" placeholder="email" class="form-control" autofocus>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<label for="password" class="col-sm-3 control-label">Password</label>
+				<div class="col-sm-9">
+					<input type="password" id="password" formControlName="password" placeholder="password" class="form-control" autofocus>
+				</div>
+
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary btn-block" (click)="forgotPassword(resetpswForm)">Submit</button>
+	</form>
+</div>
+
