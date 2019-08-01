@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { AlertService } from '../services/alert.service';
 declare var $: any;
 
 @Component({
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   isDisable = false;
   submittedp = false
-  constructor(public _userService: UserService, public route: Router) {
+  constructor(public _userService: UserService, public route: Router, public _alertService: AlertService) {
 
     this.loginForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -51,11 +52,14 @@ export class LoginComponent implements OnInit {
     console.log('loginuserdata===============>', data, this.isDisable)
     this._userService.login(data.value).subscribe((res: any) => {
       console.log('response of login===============>', res);
+      this._alertService.successAlert(res.message)
       localStorage.setItem('curruntUserToken', res.token);
       this.route.navigate(['/home']);
       this.isDisable = false
     }, err => {
-      console.log('err in login===============>', err)
+      console.log('err in login===============>', err);
+      
+      this._alertService.failurAlert();
       this.isDisable = false
     })
   }

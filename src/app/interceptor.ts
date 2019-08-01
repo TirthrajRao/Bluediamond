@@ -76,7 +76,7 @@ export class MyInterceptor implements HttpInterceptor {
                     return event;
                 }),
                 catchError((error: HttpErrorResponse) => {
-                    console.log("interceptorsssssssss error by meeeeeeeeeee", error);
+                    console.log("interceptorsssssssss without token error by meeeeeeeeeee", error);
                     const errorMessage = error.error;
                     console.log("error in interceptor", errorMessage);
                     if (error.status === 401) {
@@ -89,7 +89,7 @@ export class MyInterceptor implements HttpInterceptor {
                         //   })
                         this.route.navigate(['/login']);
                     }
-                    return throwError(errorMessage);
+                    return throwError(error);
                 })
             );
         }
