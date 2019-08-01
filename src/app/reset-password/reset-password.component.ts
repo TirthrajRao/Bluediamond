@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
+declare var $ : any;
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
@@ -15,8 +16,8 @@ export class ResetPasswordComponent implements OnInit {
 
     this.resetpswForm = new FormGroup({
       email: new FormControl('', Validators.required),
-      newPassword: new FormControl('',[Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
-      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
+      newPassword: new FormControl('',[Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
     });
 
 
@@ -28,6 +29,7 @@ export class ResetPasswordComponent implements OnInit {
   get resetPswValidation() {
     return this.resetpswForm.controls;
   }
+  
 /**
  * Compare password
  * @param form 
@@ -36,13 +38,18 @@ export class ResetPasswordComponent implements OnInit {
 		console.log(form.value.newPassword == form.value.confirmPassword, this.match);
 		if(form.value.newPassword === form.value.confirmPassword){
 			console.log("In true condition");
-			this.match = true;
+      this.match = true;
+      $('#confirmPassword').css('border-color','green')
 		}else{
-			this.match = false;
+      this.match = false;
+      $('#confirmPassword').css('border-color','red')
 		} 
-
 	}
 
+  /**
+   * Reset Password 
+   * @param {object} data 
+   */
   resetPassword(data) {
     this.submitted = true;
 		if (this.resetpswForm.invalid) {

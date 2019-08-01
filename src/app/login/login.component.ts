@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { variable } from '@angular/compiler/src/output/output_ast';
 declare var $: any;
 
 @Component({
@@ -49,11 +48,11 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.isDisable = true;
-    console.log('loginuserdata===============>', data,this.isDisable)
+    console.log('loginuserdata===============>', data, this.isDisable)
     this._userService.login(data.value).subscribe((res: any) => {
       console.log('response of login===============>', res);
       localStorage.setItem('curruntUserToken', res.token);
-      this.route.navigate(['/reset-password']);
+      this.route.navigate(['/home']);
       this.isDisable = false
     }, err => {
       console.log('err in login===============>', err)
@@ -62,8 +61,8 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Forgot Password
-   * @param data
+   * Send Email Forgot Password
+   * @param {object} data
    */
   forgotPassword(data) {
     console.log("data==============>", data);

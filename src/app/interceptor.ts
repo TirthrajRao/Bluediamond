@@ -51,25 +51,46 @@ export class MyInterceptor implements HttpInterceptor {
                         //   })
                         this.route.navigate(['/login']);
                     }
-                    return throwError('Internal server error');
+                    return throwError(errorMessage);
                 })
             );
         } else {
             return next.handle(request).pipe(
-                tap(
-                    event => {
-                        //logging the http response to browser's console in case of a success
-                        if (event instanceof HttpResponse) {
-                            console.log("api call success :", event);
-                        }
-                    },
-                    error => {
-                        //logging the http response to browser's console in case of a failuer
-                        if (event instanceof HttpResponse) {
-                            console.log("api call error :", event);
-                        }
+                // tap(
+                //     event => {
+                //         //logging the http response to browser's console in case of a success
+                //         if (event instanceof HttpResponse) {
+                //             console.log("api call success :", event);
+                //         }
+                //     },
+                //     error => {
+                //         //logging the http response to browser's console in case of a failuer
+                //         if (event instanceof HttpResponse) {
+                //             console.log("api call error :", event);
+                //         }
+                //     }
+                // )
+                map((event: HttpResponse<any>) => {
+
+                    console.log("in response===========>", event);
+                    return event;
+                }),
+                catchError((error: HttpErrorResponse) => {
+                    console.log("interceptorsssssssss error by meeeeeeeeeee", error);
+                    const errorMessage = error.error;
+                    console.log("error in interceptor", errorMessage);
+                    if (error.status === 401) {
+                        localStorage.removeItem('curruntUserToken');
+                        //   Swal.fire({
+                        //     type: 'error',
+                        //     title: "sorry" + errorMessage,
+                        //     showConfirmButton: false,
+                        //     timer: 2000
+                        //   })
+                        this.route.navigate(['/login']);
                     }
-                )
+                    return throwError(errorMessage);
+                })
             );
         }
     }

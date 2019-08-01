@@ -1,4 +1,5 @@
 <div class="container">
+    <!-- Registration Form -->
     <form class="form-horizontal" [formGroup]="registerForm">
         <h2>Registeration</h2>
         <div class="form-group">
@@ -55,7 +56,7 @@
                     <input type="password" id="password" formControlName="password" placeholder="password" class="form-control" autofocus [ngClass]="{ 'is-invalid': rgisterFormValidation.password.touched && rgisterFormValidation.password.errors }">
                     <div *ngIf="rgisterFormValidation.password.touched && rgisterFormValidation.password.errors" class="invalid-feedback">
                         <div *ngIf="rgisterFormValidation.password.errors.required">password is required</div>
-                        <div *ngIf="rgisterFormValidation.password.errors.minlength">Password must contain atleast 6 characters</div>
+                        <div *ngIf="rgisterFormValidation.password.errors.minlength">Password must contain atleast 8 characters</div>
                         <div *ngIf="rgisterFormValidation.password.errors.maxlength">Password must be only 20 characters</div>
                     </div>
                 </div>

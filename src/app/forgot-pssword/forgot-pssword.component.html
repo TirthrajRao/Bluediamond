@@ -1,25 +1,35 @@
-
 <div class="container">
-	<form class="form-horizontal" [formGroup]="resetpswForm">
-		<h2>Reset Password</h2>
+    <!-- Forgot Password Form -->
+    <form class="form-horizontal" [formGroup]="resetpswForm">
+        <h2>Reset Password</h2>
         <div class="form-group">
-			<div class="row">
-				<label for="email" class="col-sm-3 control-label">Email</label>
-				<div class="col-sm-9">
-					<input type="text" id="email" formControlName="email" placeholder="email" class="form-control" autofocus>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="row">
-				<label for="password" class="col-sm-3 control-label">Password</label>
-				<div class="col-sm-9">
-					<input type="password" id="password" formControlName="password" placeholder="password" class="form-control" autofocus>
-				</div>
+            <div class="row">
+                <label for="email" class="col-sm-3 control-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="email" id="email" formControlName="email" placeholder="email" class="form-control" [ngClass]="{ 'is-invalid': forgotPswValdition.email.touched && forgotPswValdition.email.errors }" (input)="validateEmail(resetpswForm.value)">
+                    <span id="message" style="color: red; font-size: 14px;"></span>
+                    <div *ngIf="submitted && forgotPswValdition.email.errors" class="invalid-feedback">
+                        <div *ngIf="forgotPswValdition.email.errors.required">Email is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <label for="password" class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-9">
+                    <input type="password" id="password" formControlName="password" placeholder="password" class="form-control" [ngClass]="{ 'is-invalid': forgotPswValdition.password.touched && forgotPswValdition.password.errors }">
+                    <div *ngIf="forgotPswValdition.password.touched && forgotPswValdition.password.errors" class="invalid-feedback">
+                        <div *ngIf="forgotPswValdition.password.errors.required">password is required</div>
+                        <div *ngIf="forgotPswValdition.password.errors.minlength">Password must contain atleast 8 characters
+                        </div>
+                        <div *ngIf="forgotPswValdition.password.errors.maxlength">Password must be only 20 characters
+                        </div>
+                    </div>
+                </div>
 
-			</div>
-		</div>
-		<button type="submit" class="btn btn-primary btn-block" (click)="forgotPassword(resetpswForm)">Submit</button>
-	</form>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" (click)="forgotPassword(resetpswForm)" [disabled]="isDisable || resetpswForm.invalid">Submit</button>
+    </form>
 </div>
-

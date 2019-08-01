@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPsswordComponent } from './forgot-pssword/forgot-pssword.component';
 import {MyInterceptor} from './interceptor';
 
@@ -15,9 +14,7 @@ import {MyInterceptor} from './interceptor';
     AppComponent,
     LoginComponent,
     SignupComponent,
-    ResetPasswordComponent,
-    ForgotPsswordComponent,
-    
+    ForgotPsswordComponent, 
   ],
   imports: [
     BrowserModule,
