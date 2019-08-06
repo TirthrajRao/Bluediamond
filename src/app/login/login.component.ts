@@ -28,10 +28,15 @@ export class LoginComponent implements OnInit {
     this.forgotepasswordForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email])
     })
+
+    // redirect to home if already logged in
+    if (this._userService.currentUserValue) {
+      this.route.navigate(['/home']);
+    }
   }
 
   ngOnInit() {
-    $(".toggle-password").click(function() {
+    $(".toggle-password").click(function () {
       $(this).toggleClass("fa-eye fa-eye-slash");
     });
   }
@@ -58,7 +63,7 @@ export class LoginComponent implements OnInit {
     this._userService.login(data.value).subscribe((res: any) => {
       console.log('response of login===============>', res);
       this._alertService.successAlert(res.message);
-      localStorage.setItem('curruntUserToken', res.token);
+      // localStorage.setItem('curruntUserToken', res.token);
       this.route.navigate(['/home']);
       this.isDisable = false
     }, err => {
@@ -80,8 +85,8 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.isDisable = true;
-    this._userService.forgotPasswordEmail(data.value).subscribe((res:any) => {
-      console.log('response of password===============>',  res);
+    this._userService.forgotPasswordEmail(data.value).subscribe((res: any) => {
+      console.log('response of password===============>', res);
       this._alertService.successAlert(res.message);
       $('#modalForgotPasswordForm').modal('hide');
       this.isDisable = false;
