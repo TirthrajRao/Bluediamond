@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
-declare var $ : any;
+import { AlertService } from '../services/alert.service';
+declare const $ : any;
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
@@ -11,11 +12,14 @@ export class ResetPasswordComponent implements OnInit {
   resetpswForm: FormGroup;
   submitted = false;
   isDisable = false;
-  match = false
-  constructor(public _userService: UserService) {
+  match = false;
+  show = false;
+  show1 = false;
+  constructor(public _userService: UserService,public _alertService: AlertService) {
 
     this.resetpswForm = new FormGroup({
       email: new FormControl('', Validators.required),
+      oldPassword: new FormControl('',[Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
       newPassword: new FormControl('',[Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
       confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
     });
@@ -24,6 +28,9 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit() {
+    $(".toggle-password").click(function() {
+      $(this).toggleClass("fa-eye fa-eye-slash");
+    });
   }
 
   get resetPswValidation() {
@@ -57,13 +64,22 @@ export class ResetPasswordComponent implements OnInit {
     }
     this.isDisable = true;
     console.log('data===================>', data);
-    this._userService.resetPassword(data.value).subscribe((res) => {
+    this._userService.resetPassword(data.value).subscribe((res:any) => {
       console.log("response in reset pwd============>", res);
-      this.isDisable = true;
+      this._alertService.successAlert(res.message)
+      this.isDisable = false;
+      this.resetpswForm.reset();
     }, err => {
       console.log('err===============>', err);
-      this.isDisable = true;
+      this._alertService.failurAlert(err.error.message);
+      this.isDisable = false;
+      this.resetpswForm.reset();
     })
-
+  }
+  npassword(){
+    this.show= !this.show;
+  }
+  cpassword(){
+    this.show1= !this.show1;
   }
 }

@@ -33,8 +33,7 @@ export class MyInterceptor implements HttpInterceptor {
             console.log("Before making api call : ", cloned);
             return next.handle(cloned).pipe(
                 map((event: HttpResponse<any>) => {
-
-                    console.log("in response===========>", event);
+                    console.log("in response= with token==========>", event);
                     return event;
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -51,7 +50,7 @@ export class MyInterceptor implements HttpInterceptor {
                         //   })
                         this.route.navigate(['/login']);
                     }
-                    return throwError(errorMessage);
+                    return throwError(error);
                 })
             );
         } else {

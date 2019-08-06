@@ -17,8 +17,10 @@
         <div class="form-group">
             <div class="row">
                 <label for="password" class="col-sm-3 control-label">Password</label>
-                <div class="col-sm-9">
-                    <input type="password" id="password" formControlName="password" placeholder="password" class="form-control" [ngClass]="{ 'is-invalid': forgotPswValdition.password.touched && forgotPswValdition.password.errors }">
+                <div class="col-sm-9 input_with_icont">
+                    <input type="password" id="password" formControlName="password" placeholder="password" class="form-control" [ngClass]="{ 'is-invalid': forgotPswValdition.password.touched && forgotPswValdition.password.errors }" [type]="show ? 'text' : 'password'">
+                    <span toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password"
+                    (click)="password()"></span>
                     <div *ngIf="forgotPswValdition.password.touched && forgotPswValdition.password.errors" class="invalid-feedback">
                         <div *ngIf="forgotPswValdition.password.errors.required">password is required</div>
                         <div *ngIf="forgotPswValdition.password.errors.minlength">Password must contain atleast 8 characters

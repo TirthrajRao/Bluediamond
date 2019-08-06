@@ -20,7 +20,7 @@ export class AlertService {
     )
   }
 
-  failurAlert() {
-    Swal.fire('Oops...', 'Something went wrong!', 'error') 
+  failurAlert(message) {
+    Swal.fire('Oops...', message, 'error') 
   }
 }

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { AlertService } from '../services/alert.service';
-declare var $: any;
+declare const $: any;
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,9 @@ export class LoginComponent implements OnInit {
   forgotepasswordForm: FormGroup;
   submitted = false;
   isDisable = false;
-  submittedp = false
+  submittedp = false;
+  show = false;
+
   constructor(public _userService: UserService, public route: Router, public _alertService: AlertService) {
 
     this.loginForm = new FormGroup({
@@ -29,6 +31,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    $(".toggle-password").click(function() {
+      $(this).toggleClass("fa-eye fa-eye-slash");
+    });
   }
 
   get loginValidation() {
@@ -52,14 +57,13 @@ export class LoginComponent implements OnInit {
     console.log('loginuserdata===============>', data, this.isDisable)
     this._userService.login(data.value).subscribe((res: any) => {
       console.log('response of login===============>', res);
-      this._alertService.successAlert(res.message)
+      this._alertService.successAlert(res.message);
       localStorage.setItem('curruntUserToken', res.token);
       this.route.navigate(['/home']);
       this.isDisable = false
     }, err => {
       console.log('err in login===============>', err);
-      
-      this._alertService.failurAlert();
+      this._alertService.failurAlert(err.error.message);
       this.isDisable = false
     })
   }
@@ -76,13 +80,19 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.isDisable = true;
-    this._userService.forgotPasswordEmail(data.value).subscribe((res) => {
-      console.log('response of password===============>', res);
+    this._userService.forgotPasswordEmail(data.value).subscribe((res:any) => {
+      console.log('response of password===============>',  res);
+      this._alertService.successAlert(res.message);
       $('#modalForgotPasswordForm').modal('hide');
       this.isDisable = false;
     }, err => {
       console.log('err in password===============>', err);
+      this._alertService.failurAlert(err.error.message);
       this.isDisable = false;
     })
+  }
+
+  password() {
+    this.show = !this.show;
   }
 }

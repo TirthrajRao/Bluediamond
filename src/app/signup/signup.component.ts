@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service'
-
+import { UserService } from '../services/user.service';
+import { AlertService } from '../services/alert.service';
+declare const $: any;
 
 @Component({
   selector: 'app-signup',
@@ -13,8 +14,9 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   isDisable = false;
+  show = false;
 
-  constructor(public router: Router, public _userService: UserService) {
+  constructor(public router: Router, public _userService: UserService,public _alertService: AlertService) {
     this.registerForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
@@ -25,6 +27,9 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit() {
+    $(".toggle-password").click(function() {
+      $(this).toggleClass("fa-eye fa-eye-slash");
+    });
   }
   get rgisterFormValidation() {
     return this.registerForm.controls;
@@ -90,14 +95,19 @@ export class SignupComponent implements OnInit {
     }
     this.isDisable = true
     console.log("=========registeruser==========", data)
-    this._userService.registerUser(data.value).subscribe((res) => {
+    this._userService.registerUser(data.value).subscribe((res:any) => {
       console.log('response of add user==============>', res);
+      this._alertService.successAlert(res.message);
       this.isDisable = false;
       this.router.navigate(['/login']);
     }, err => {
       console.log('err of add user==============>', err);
       this.isDisable = false
+      this._alertService.failurAlert(err.error.errors);
     })
+  }
+  password() {
+    this.show = !this.show;
   }
 
 }
